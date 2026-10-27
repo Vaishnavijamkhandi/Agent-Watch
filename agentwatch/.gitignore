@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+*.py[cod]
+*.db
+.env
+frontend/node_modules/
+.agentwatch_secret
+.agentwatch_admin_token
+.agentwatch_agent_token

@@ -1,0 +1,29 @@
+services:
+  agentwatch:
+    build: .
+    environment:
+      DATABASE_URL: ${DATABASE_URL:-sqlite:////data/agentwatch.db}
+      AGENTWATCH_DEMO: ${AGENTWATCH_DEMO:-1}
+      AGENTWATCH_ADMIN_TOKEN: ${AGENTWATCH_ADMIN_TOKEN:-}
+      AGENTWATCH_SECRET: ${AGENTWATCH_SECRET:-change-this-before-use}
+      ALLOWED_EMAIL_DOMAINS: ${ALLOWED_EMAIL_DOMAINS:-company.local,approved-vendor.example}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+    ports:
+      - "8000:8000"
+    volumes:
+      - agentwatch-data:/data
+    restart: unless-stopped
+  postgres:
+    image: postgres:16-alpine
+    profiles: [postgres]
+    environment:
+      POSTGRES_DB: agentwatch
+      POSTGRES_USER: agentwatch
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change-this-password}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+volumes:
+  agentwatch-data:
+  postgres-data:
